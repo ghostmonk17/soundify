@@ -1,22 +1,3 @@
-<<<<<<< HEAD
-import { useAuthContext } from '@/context/AuthContext';
-
-export function useAuth() {
-  const context = useAuthContext();
-  
-  return {
-    // State
-    user: context.user,
-    isAuthenticated: context.isAuthenticated,
-    isLoading: context.isLoading,
-    error: context.error,
-    
-    // Actions
-    login: context.login,
-    signup: context.signup,
-    logout: context.logout,
-    clearError: context.clearError,
-=======
 import { useAuthContext } from "@/context/AuthContext";
 import * as authService from "@/services/authService";
 import { setTokens, clearTokens } from "@/utils/storage";
@@ -28,8 +9,10 @@ export function useAuth() {
   const login = async (email: string, password: string) => {
     dispatch({ type: "LOGIN_START" });
     try {
-      const { accessToken, refreshToken } =
-        await authService.login(email, password);
+      const { accessToken, refreshToken } = await authService.login(
+        email,
+        password,
+      );
 
       setTokens(accessToken, refreshToken);
 
@@ -54,8 +37,10 @@ export function useAuth() {
   const signup = async (email: string, password: string, name: string) => {
     dispatch({ type: "LOGIN_START" });
     try {
-      const { accessToken, refreshToken } =
-        await authService.signup(email, password);
+      const { accessToken, refreshToken } = await authService.signup(
+        email,
+        password,
+      );
 
       setTokens(accessToken, refreshToken);
 
@@ -96,6 +81,5 @@ export function useAuth() {
     signup,
     logout,
     clearError,
->>>>>>> aac6e09 (fix: reinitialize repo and push clean project)
   };
 }

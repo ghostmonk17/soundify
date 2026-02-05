@@ -1,8 +1,18 @@
+import { useEffect, useState } from "react";
+
 import { Song } from "@/context/PlayerContext";
 import { usePlayer } from "@/hooks/usePlayer";
-import { usePlaylistContext } from "@/context/PlaylistContext";
+
+import {
+  addFavorite,
+  removeFavorite,
+  isFavorite,
+} from "@/services/favorites.services";
+
 import { formatTime } from "@/utils/formatTime";
+
 import { Play, Pause, Heart, MoreHorizontal } from "lucide-react";
+
 import { Button } from "@/components/common/Button";
 import { cn } from "@/utils/utils";
 
@@ -13,22 +23,70 @@ interface SongItemProps {
 }
 
 export function SongItem({ song, index, showIndex = false }: SongItemProps) {
-  const { currentSong, isPlaying, playSong, togglePlay, setQueue, queue } =
-    usePlayer();
-  const { isFavorite, toggleFavorite } = usePlaylistContext();
+  const {
+    currentSong,
+    isPlaying,
+    playSong,
+    togglePlay,
+    setQueue,
+    queue,
+  } = usePlayer();
+
+  const [liked, setLiked] = useState<boolean>(false);
+  const [loading, setLoading] = useState(false);
 
   const isCurrentSong = currentSong?.id === song.id;
-  const isLiked = isFavorite(song.id);
+
+  // Sync from backend
+  useEffect(() => {
+    const load = async () => {
+      try {
+        const res = await isFavorite(song.id);
+        setLiked(res);
+      } catch {
+        setLiked(false);
+      }
+    };
+
+    load();
+  }, [song.id]);
 
   const handlePlay = () => {
     if (isCurrentSong) {
       togglePlay();
     } else {
-      // If song is not in queue, add it
       if (!queue.find((s) => s.id === song.id)) {
         setQueue([...queue, song]);
       }
+
       playSong(song);
+    }
+  };
+
+  const handleToggleFavorite = async () => {
+    if (loading) return;
+
+    setLoading(true);
+
+    try {
+      if (liked) {
+        await removeFavorite(song.id);
+        setLiked(false);
+      } else {
+        await addFavorite({
+          trackId: song.id,
+          title: song.title,
+          artist: song.artist,
+          image: song.coverUrl,
+          audio: song.audioUrl,
+        });
+
+        setLiked(true);
+      }
+    } catch (err) {
+      console.error(err);
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -37,38 +95,22 @@ export function SongItem({ song, index, showIndex = false }: SongItemProps) {
       className={cn(
         "group flex items-center gap-4 p-3 rounded-lg transition-colors duration-200",
         "hover:bg-muted/50",
-        isCurrentSong && "bg-muted/70",
+        isCurrentSong && "bg-muted/70"
       )}
     >
-      {/* Index or Play button */}
+      {/* Index / Play */}
       <div className="w-8 flex items-center justify-center">
         {showIndex ? (
           <>
             <span
               className={cn(
                 "text-sm text-muted-foreground group-hover:hidden",
-                isCurrentSong && "text-primary font-medium",
+                isCurrentSong && "text-primary font-medium"
               )}
             >
-              {isCurrentSong && isPlaying ? (
-                <span className="flex gap-0.5">
-                  <span
-                    className="w-0.5 h-3 bg-primary rounded-full animate-bounce"
-                    style={{ animationDelay: "0ms" }}
-                  />
-                  <span
-                    className="w-0.5 h-3 bg-primary rounded-full animate-bounce"
-                    style={{ animationDelay: "150ms" }}
-                  />
-                  <span
-                    className="w-0.5 h-3 bg-primary rounded-full animate-bounce"
-                    style={{ animationDelay: "300ms" }}
-                  />
-                </span>
-              ) : (
-                index
-              )}
+              {isCurrentSong && isPlaying ? "▶" : index}
             </span>
+
             <Button
               variant="player"
               size="icon-sm"
@@ -100,17 +142,20 @@ export function SongItem({ song, index, showIndex = false }: SongItemProps) {
         className="w-12 h-12 rounded-md object-cover shadow-md"
       />
 
-      {/* Song Info */}
+      {/* Info */}
       <div className="flex-1 min-w-0">
         <h4
           className={cn(
             "font-medium truncate",
-            isCurrentSong ? "text-primary" : "text-foreground",
+            isCurrentSong ? "text-primary" : "text-foreground"
           )}
         >
           {song.title}
         </h4>
-        <p className="text-sm text-muted-foreground truncate">{song.artist}</p>
+
+        <p className="text-sm text-muted-foreground truncate">
+          {song.artist}
+        </p>
       </div>
 
       {/* Album */}
@@ -123,12 +168,17 @@ export function SongItem({ song, index, showIndex = false }: SongItemProps) {
         <Button
           variant="player"
           size="icon-sm"
-          onClick={() => toggleFavorite(song)}
+          onClick={handleToggleFavorite}
+          disabled={loading}
         >
           <Heart
-            className={cn("w-4 h-4", isLiked && "fill-primary text-primary")}
+            className={cn(
+              "w-4 h-4",
+              liked && "fill-primary text-primary"
+            )}
           />
         </Button>
+
         <Button variant="player" size="icon-sm">
           <MoreHorizontal className="w-4 h-4" />
         </Button>

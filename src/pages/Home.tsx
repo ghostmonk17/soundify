@@ -1,45 +1,40 @@
-import { useEffect, useState } from 'react';
-import { Song } from '@/context/PlayerContext';
-import { Playlist } from '@/context/PlaylistContext';
-import { usePlayer } from '@/hooks/usePlayer';
-import { musicService } from '@/services/musicService';
-import { SongList } from '@/components/songs/SongList';
-import { PlaylistList } from '@/components/playlist/PlaylistList';
-import { Button } from '@/components/common/Button';
-import { Play, TrendingUp, Clock, Sparkles } from 'lucide-react';
+import { useEffect, useState } from "react";
+
+import { Song } from "@/context/PlayerContext";
+import { usePlayer } from "@/hooks/usePlayer";
+
+import { musicService } from "@/services/musicService";
+
+import { SongList } from "@/components/songs/SongList";
+import { Button } from "@/components/common/Button";
+
+import { Play, Sparkles } from "lucide-react";
 
 export default function Home() {
-  const [featuredSongs, setFeaturedSongs] = useState<Song[]>([]);
-  const [recentlyPlayed, setRecentlyPlayed] = useState<Song[]>([]);
-  const [playlists, setPlaylists] = useState<Playlist[]>([]);
+  const [songs, setSongs] = useState<Song[]>([]);
   const [isLoading, setIsLoading] = useState(true);
+
   const { setQueue, playSong } = usePlayer();
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchSongs = async () => {
       try {
-        const [featured, recent, playlistsData] = await Promise.all([
-          musicService.getFeaturedSongs(),
-          musicService.getRecentlyPlayed(),
-          musicService.getPlaylists(),
-        ]);
-        setFeaturedSongs(featured);
-        setRecentlyPlayed(recent);
-        setPlaylists(playlistsData);
-      } catch (error) {
-        console.error('Error fetching data:', error);
+        const data = await musicService.getSongs();
+        setSongs(data);
+      } catch (err) {
+        console.error("Failed to load songs:", err);
       } finally {
         setIsLoading(false);
       }
     };
 
-    fetchData();
+    fetchSongs();
   }, []);
 
   const handlePlayAll = () => {
-    if (featuredSongs.length > 0) {
-      setQueue(featuredSongs);
-      playSong(featuredSongs[0]);
+    if (songs.length > 0) {
+      setQueue(songs);
+      playSong(songs[0]);
     }
   };
 
@@ -50,54 +45,53 @@ export default function Home() {
         <div className="relative z-10">
           <div className="flex items-center gap-2 text-primary mb-4">
             <Sparkles className="w-5 h-5" />
-            <span className="text-sm font-medium">Featured Today</span>
+            <span className="text-sm font-medium">
+              Featured Today
+            </span>
           </div>
+
           <h1 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
             Discover Your <br />
-            <span className="gradient-text">Perfect Sound</span>
+            <span className="gradient-text">
+              Perfect Sound
+            </span>
           </h1>
+
           <p className="text-muted-foreground max-w-md mb-6">
-            Explore curated playlists and trending tracks tailored just for you.
+            Explore trending tracks from Jamendo.
           </p>
-          <Button variant="gradient" size="lg" onClick={handlePlayAll}>
+
+          <Button
+            variant="gradient"
+            size="lg"
+            onClick={handlePlayAll}
+            disabled={songs.length === 0}
+          >
             <Play className="w-5 h-5" />
-            Play Featured
+            Play All
           </Button>
         </div>
-        
-        {/* Decorative gradient orbs */}
+
         <div className="absolute top-0 right-0 w-96 h-96 bg-primary/20 rounded-full blur-3xl" />
         <div className="absolute bottom-0 left-1/2 w-64 h-64 bg-accent/20 rounded-full blur-3xl" />
       </section>
 
-      {/* Featured Playlists */}
-      <section>
-        <div className="flex items-center gap-3 mb-6">
-          <TrendingUp className="w-6 h-6 text-primary" />
-          <h2 className="text-2xl font-bold text-foreground">Trending Playlists</h2>
-        </div>
-        <PlaylistList playlists={playlists} isLoading={isLoading} />
-      </section>
-
-      {/* Recently Played */}
-      <section>
-        <div className="flex items-center gap-3 mb-6">
-          <Clock className="w-6 h-6 text-primary" />
-          <h2 className="text-2xl font-bold text-foreground">Recently Played</h2>
-        </div>
-        <div className="glass-card rounded-xl overflow-hidden">
-          <SongList songs={recentlyPlayed} isLoading={isLoading} />
-        </div>
-      </section>
-
-      {/* Featured Songs */}
+      {/* Songs */}
       <section>
         <div className="flex items-center gap-3 mb-6">
           <Sparkles className="w-6 h-6 text-primary" />
-          <h2 className="text-2xl font-bold text-foreground">Featured Tracks</h2>
+
+          <h2 className="text-2xl font-bold text-foreground">
+            Trending Tracks
+          </h2>
         </div>
+
         <div className="glass-card rounded-xl overflow-hidden">
-          <SongList songs={featuredSongs} isLoading={isLoading} />
+          <SongList
+            songs={songs}
+            isLoading={isLoading}
+            emptyMessage="No songs found"
+          />
         </div>
       </section>
     </div>

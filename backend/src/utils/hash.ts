@@ -1,7 +1,14 @@
 import bcrypt from "bcrypt";
 
-export const hashPassword = (password: string) =>
-  bcrypt.hash(password, 10);
+const SALT_ROUNDS = Number(process.env.BCRYPT_SALT) || 10;
 
-export const comparePassword = (password: string, hash: string) =>
-  bcrypt.compare(password, hash);
+export const hashPassword = (password: string) => {
+  return bcrypt.hash(password, SALT_ROUNDS);
+};
+
+export const comparePassword = (
+  password: string,
+  hash: string
+) => {
+  return bcrypt.compare(password, hash);
+};

@@ -1,32 +1,43 @@
-import axios from "axios";
+import { jamendoApi } from "../../config/jamendo";
 
-const JAMENDO_BASE_URL = "https://api.jamendo.com/v3.0";
-const CLIENT_ID = process.env.JAMENDO_CLIENT_ID!;
+class MusicError extends Error {
+  status: number;
+
+  constructor(message: string, status = 500) {
+    super(message);
+    this.status = status;
+  }
+}
 
 export const getPopularTracks = async () => {
-  const response = await axios.get(`${JAMENDO_BASE_URL}/tracks`, {
-    params: {
-      client_id: CLIENT_ID,
-      format: "json",
-      limit: 20,
-      audioformat: "mp32",
-      include: "musicinfo"
-    }
-  });
+  try {
+    const res = await jamendoApi.get("/tracks", {
+      params: {
+        limit: 20,
+        audioformat: "mp32",
+        include: "musicinfo",
+        order: "popularity_total"
+      }
+    });
 
-  return response.data.results;
+    return res.data.results;
+  } catch (err) {
+    throw new MusicError("Failed to fetch popular tracks", 502);
+  }
 };
 
 export const searchTracks = async (query: string) => {
-  const response = await axios.get(`${JAMENDO_BASE_URL}/tracks`, {
-    params: {
-      client_id: CLIENT_ID,
-      format: "json",
-      search: query,
-      limit: 20,
-      audioformat: "mp32"
-    }
-  });
+  try {
+    const res = await jamendoApi.get("/tracks", {
+      params: {
+        search: query,
+        limit: 20,
+        audioformat: "mp32"
+      }
+    });
 
-  return response.data.results;
+    return res.data.results;
+  } catch (err) {
+    throw new MusicError("Failed to search tracks", 502);
+  }
 };

@@ -1,8 +1,4 @@
-<<<<<<< HEAD
 import React, { createContext, useContext, useReducer, ReactNode } from 'react';
-=======
-import React, { createContext, useContext, useReducer, ReactNode } from "react";
->>>>>>> aac6e09 (fix: reinitialize repo and push clean project)
 
 interface User {
   id: string;
@@ -19,19 +15,11 @@ interface AuthState {
 }
 
 type AuthAction =
-<<<<<<< HEAD
   | { type: 'LOGIN_START' }
   | { type: 'LOGIN_SUCCESS'; payload: User }
   | { type: 'LOGIN_FAILURE'; payload: string }
   | { type: 'LOGOUT' }
   | { type: 'CLEAR_ERROR' };
-=======
-  | { type: "LOGIN_START" }
-  | { type: "LOGIN_SUCCESS"; payload: User }
-  | { type: "LOGIN_FAILURE"; payload: string }
-  | { type: "LOGOUT" }
-  | { type: "CLEAR_ERROR" };
->>>>>>> aac6e09 (fix: reinitialize repo and push clean project)
 
 const initialState: AuthState = {
   user: null,
@@ -42,16 +30,9 @@ const initialState: AuthState = {
 
 function authReducer(state: AuthState, action: AuthAction): AuthState {
   switch (action.type) {
-<<<<<<< HEAD
     case 'LOGIN_START':
       return { ...state, isLoading: true, error: null };
     case 'LOGIN_SUCCESS':
-=======
-    case "LOGIN_START":
-      return { ...state, isLoading: true, error: null };
-
-    case "LOGIN_SUCCESS":
->>>>>>> aac6e09 (fix: reinitialize repo and push clean project)
       return {
         ...state,
         isLoading: false,
@@ -59,12 +40,7 @@ function authReducer(state: AuthState, action: AuthAction): AuthState {
         user: action.payload,
         error: null,
       };
-<<<<<<< HEAD
     case 'LOGIN_FAILURE':
-=======
-
-    case "LOGIN_FAILURE":
->>>>>>> aac6e09 (fix: reinitialize repo and push clean project)
       return {
         ...state,
         isLoading: false,
@@ -72,34 +48,20 @@ function authReducer(state: AuthState, action: AuthAction): AuthState {
         user: null,
         error: action.payload,
       };
-<<<<<<< HEAD
     case 'LOGOUT':
       return initialState;
     case 'CLEAR_ERROR':
       return { ...state, error: null };
-=======
-
-    case "LOGOUT":
-      return initialState;
-
-    case "CLEAR_ERROR":
-      return { ...state, error: null };
-
->>>>>>> aac6e09 (fix: reinitialize repo and push clean project)
     default:
       return state;
   }
 }
 
 interface AuthContextType extends AuthState {
-<<<<<<< HEAD
   login: (email: string, password: string) => Promise<void>;
   signup: (email: string, password: string, name: string) => Promise<void>;
   logout: () => void;
   clearError: () => void;
-=======
-  dispatch: React.Dispatch<AuthAction>;
->>>>>>> aac6e09 (fix: reinitialize repo and push clean project)
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
@@ -107,7 +69,6 @@ const AuthContext = createContext<AuthContextType | undefined>(undefined);
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
-<<<<<<< HEAD
   const login = async (email: string, _password: string) => {
     dispatch({ type: 'LOGIN_START' });
     try {
@@ -153,10 +114,6 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     <AuthContext.Provider
       value={{ ...state, login, signup, logout, clearError }}
     >
-=======
-  return (
-    <AuthContext.Provider value={{ ...state, dispatch }}>
->>>>>>> aac6e09 (fix: reinitialize repo and push clean project)
       {children}
     </AuthContext.Provider>
   );
@@ -164,13 +121,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
 
 export function useAuthContext() {
   const context = useContext(AuthContext);
-<<<<<<< HEAD
   if (context === undefined) {
     throw new Error('useAuthContext must be used within an AuthProvider');
-=======
-  if (!context) {
-    throw new Error("useAuthContext must be used within an AuthProvider");
->>>>>>> aac6e09 (fix: reinitialize repo and push clean project)
   }
   return context;
 }

@@ -1,3 +1,17 @@
+<<<<<<< HEAD
+=======
+# dependencies
+node_modules/
+**/node_modules/
+
+# env files
+.env
+.env.*
+backend/.env
+src/.env
+
+
+>>>>>>> aac6e09 (fix: reinitialize repo and push clean project)
 # Logs
 logs
 *.log
@@ -22,3 +36,7 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+<<<<<<< HEAD
+=======
+.env
+>>>>>>> aac6e09 (fix: reinitialize repo and push clean project)

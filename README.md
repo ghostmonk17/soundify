@@ -155,51 +155,28 @@ MongoDB (Users, Favorites, Playlists)
 soundify/
 
 │ ├── src/
-
 │ │ ├── components/
-
 │ │ ├── pages/
-
 │ │ ├── context/
-
 │ │ ├── hooks/
-
 │ │ ├── services/
-
 │ │ ├── routes/
-
 │ │ └── utils/
-
 │ └── package.json
-
 │
-
 ├── backend/
-
 │ ├── src/
-
 │ │ ├── config/
-
 │ │ ├── modules/
-
 │ │ ├── models/
-
 │ │ ├── utils/
-
 │ │ ├── middlewares/
-
 │ │ ├── routes.ts
-
 │ │ ├── app.ts
-
 │ │ └── server.ts
-
 │ └── package.json
-
 │
-
 ├── .gitignore
-
 ├── README.md
 
   

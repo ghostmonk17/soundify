@@ -311,10 +311,8 @@ This project is licensed under the MIT License.
 
 ## 👨‍💻 Authors
 
-**Prathmesh Alkute**
-GitHub: https://github.com/ghostmonk17
-LinkedIn: https://linkedin.com/in/prathmeshalkute
+**Prathmesh Alkute** <br>
+GitHub: https://github.com/ghostmonk17  LinkedIn: https://linkedin.com/in/prathmeshalkute
 
-**Sachin Vishakarma**
-GitHub: https://github.com/itzsv413
-LinkedIn: https://linkedin.com/in/sachin-vishwakarma413/
+**Sachin Vishakarma** <br>
+GitHub: https://github.com/itzsv413  LinkedIn: https://linkedin.com/in/sachin-vishwakarma413

@@ -155,28 +155,51 @@ MongoDB (Users, Favorites, Playlists)
 soundify/
 
 │ ├── src/
+
 │ │ ├── components/
+
 │ │ ├── pages/
+
 │ │ ├── context/
+
 │ │ ├── hooks/
+
 │ │ ├── services/
+
 │ │ ├── routes/
+
 │ │ └── utils/
+
 │ └── package.json
+
 │
+
 ├── backend/
+
 │ ├── src/
+
 │ │ ├── config/
+
 │ │ ├── modules/
+
 │ │ ├── models/
+
 │ │ ├── utils/
+
 │ │ ├── middlewares/
+
 │ │ ├── routes.ts
+
 │ │ ├── app.ts
+
 │ │ └── server.ts
+
 │ └── package.json
+
 │
+
 ├── .gitignore
+
 ├── README.md
 
   
@@ -229,9 +252,7 @@ JAMENDO_CLIENT_ID=your_jamendo_client_id
 1️⃣ Clone Repository
 
 ```bash
-
 git  clone  https://github.com/ghostmonk17/soundify.git
-
 cd  soundify
 
 ```
@@ -241,11 +262,8 @@ cd  soundify
 2️⃣ Frontend Setup
 
 ```bash
-
 npm  install
-
 npm  run  dev
-
 ```
 Runs at: `http://localhost:8080`
 
@@ -254,13 +272,9 @@ Runs at: `http://localhost:8080`
 3️⃣ Backend Setup
 
 ```bash
-
 cd  backend
-
 npm  install
-
 npm  run  dev
-
 ```
 
 Runs at: ` http://localhost:5000`
@@ -288,8 +302,10 @@ This project is licensed under the MIT License.
 
 ## 👨‍💻 Authors
 
-**Prathmesh Alkute** <br>
-GitHub: https://github.com/ghostmonk17  LinkedIn: https://linkedin.com/in/prathmeshalkute
+**Prathmesh Alkute**<br>
+GitHub: https://github.com/ghostmonk17
+LinkedIn: https://linkedin.com/in/prathmeshalkute
 
-**Sachin Vishakarma** <br>
-GitHub: https://github.com/itzsv413  LinkedIn: https://linkedin.com/in/sachin-vishwakarma413
+**Sachin Vishakarma**<br>
+GitHub: https://github.com/itzsv413
+LinkedIn: https://linkedin.com/in/sachin-vishwakarma413/

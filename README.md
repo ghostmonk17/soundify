@@ -216,16 +216,31 @@ soundify/
 ### Backend (`backend/.env`)
 
 ```env
-
 PORT=5000
 
-MONGO_URI=your_mongodb_connection_string
+MONGODB_URI=your_mongodb_connection_string
 
-JWT_ACCESS_SECRET=your_access_secret
+# Imagekit credentials
+# get from https://imagekit.io/dashboard/developer/api-keys
+IMAGEKIT_PUBLIC_KEY=
+IMAGEKIT_PRIVATE_KEY=
+IMAGEKIT_URL_ENDPOINT=
 
-JWT_REFRESH_SECRET=your_refresh_secret
+#jwt
+JWT_SECRET=
+JWT_EXPIRES_IN=
 
-JAMENDO_CLIENT_ID=your_jamendo_client_id
+#Mailtrap
+# get from https://mailtrap.io/inboxes
+MAILTRAP_HOST=
+MAILTRAP_PORT=
+MAILTRAP_USER=
+MAILTRAP_PASS=
+
+FRONTEND_URL=http://localhost:5173
+
+# get from https://devportal.jamendo.com/admin/applications
+JAMENDO_CLIENT_ID=
 
 ```
 

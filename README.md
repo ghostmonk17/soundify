@@ -324,3 +324,7 @@ LinkedIn: https://linkedin.com/in/prathmeshalkute
 **Sachin Vishakarma**<br>
 GitHub: https://github.com/itzsv413
 LinkedIn: https://linkedin.com/in/sachin-vishwakarma413/
+
+**Pravin Patil**<br>
+GitHub: https://github.com/pravinpatil05
+LinkedIn: www.linkedin.com/in/patilpravin6846
